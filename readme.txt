@@ -1,14 +1,21 @@
 
-Possui uma aba a mais de pagamento recorrente que é exibida na finalização da compra. 
-Permite que assinaturas de valores dinâmicos sejam geradas automaticamente para compras 
-no carrinho gerando um novo pedido na renovação da recorrência igual ao original com o 
-status 'processando'.
+=== PagSeguro for WooCommerce Modifications By Luís Santos - https://www.instagram.com/luissantosdev ===
 
-Possui também uma forma de ativar, suspender ou cancelar assinaturas pelo proprio wordpress 
+Possui uma forma de ativar, suspender ou cancelar assinaturas pelo proprio wordpress 
 tendo um menu no admin e outro na página 'Minha conta'.
 
-=== Claudio Sanches - PagSeguro for WooCommerce ===
-Contributors: claudiosanches, Gabriel Reguly
+Há 2 endpoints na API (https://seusite/wp-json/wp/v2/active e https://seusite/wp-json/wp/v2/cancel) que são acessados periodicamente por aqui https://cron-job.org/en/ para atualizar as assinaturas.
+
+A assinatura é criada em status "aprovation" e além da assinatura, o usuário também tem um status (custom field status, 0=>inativo, 1=> ativo, 2=>suspenso) e este campo é atualizado junto com os status da assinatura, assim, a qualquer momento você pode dar um get nesse campo pra saber se o user está ativo ou não.
+
+Dupliquei a função que mostra a tabela em "minha-conta/pagamentos-recorrentes" do woocomerce e registrei como shortcode, podendo ser usado em qualquer lugar também -> [dash_assinaturass].
+
+Configure em https://cron-job.org/en/ uma solicitação do tipo POST de 10 em 10 min para https://seusite/wp-json/wp/v2/active para atualizar as assinaturas em "aprovation".
+
+Configure em https://cron-job.org/en/ uma solicitação do tipo POST uma vez por dia para https://seusite/wp-json/wp/v2/cancel, para cancelar as assinaturas não pagas.
+
+=== PagSeguro for WooCommerce ===
+Contributors: claudiosanches, Gabriel Reguly, Luís Santos
 Donate link: https://claudiosanches.com/doacoes/
 Tags: woocommerce, pagseguro, payment
 Requires at least: 4.0
